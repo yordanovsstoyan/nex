@@ -86,7 +86,7 @@ module "eks" {
       source_security_group_id = module.eks-cluster.cluster_security_group_id
     }
   }
-  }
+
 
   tags = {
     Environment = "dev"
