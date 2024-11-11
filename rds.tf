@@ -27,7 +27,7 @@ resource "aws_db_instance" "app_db" {
   vpc_security_group_ids  = [aws_security_group.db_server_sg.id]
   db_name                 = var.database_name
   username                = var.database_user
-  password                = random_password.db.result
+  password                = "parola12345"#random_password.db.result
   skip_final_snapshot     = true
   backup_retention_period = 7
 }
