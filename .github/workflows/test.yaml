@@ -85,8 +85,7 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: |
-          terraform destroy -no-color -input=false ${{ github.workspace }}/tfplanoutput/tf.plan
-
+          terraform destroy -no-color -input=false
       - name: Terraform Output
         id: output
         run: |
