@@ -57,14 +57,14 @@ variable "db_subnet_grp" {
 # RDS primary instance identity
 variable "primary_rds_identifier" {
   type        = string
-  default     = "wordpress-rds-instance"
+  default     = "rds-instance"
   description = "Identifier of primary RDS instance"
 }
 
 # RDS replica identity
 variable "replica_rds_identifier" {
   type        = string
-  default     = "wordpress-rds-instance-replica"
+  default     = "rds-instance-replica"
   description = "Identifier of replica RDS instance"
 }
 
@@ -103,13 +103,6 @@ variable "database_user" {
   default     = "dbuser"
 }
 
-# Type of instance
-variable "instance_type" {
-  type        = string
-  default     = "t3.micro"
-  description = "type/class of instance"
-}
-
 variable "cluster_name" {
   type    = string
   default = "my-eks-cluster"
@@ -118,4 +111,9 @@ variable "cluster_name" {
 variable "cluster_version" {
   type    = number
   default = 1.25
+}
+
+variable "ecr_name" {
+  type    = string
+  default = "my-eks-cluster"
 }
