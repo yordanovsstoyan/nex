@@ -54,3 +54,30 @@ resource "aws_db_instance" "app_db" {
 
 #   depends_on = [aws_db_instance.app_db]
 # }
+
+# Security group for database servers
+resource "aws_security_group" "db_server_sg" {
+  name        = "db-server-SG"
+  description = "Allow inbound SSH traffic for instances in database tier"
+  vpc_id      = aws_vpc.project_vpc.id
+}
+
+# Give application servers access to database servers
+resource "aws_security_group_rule" "db_server_mysql_rule" {
+  security_group_id        = aws_security_group.db_server_sg.id
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  source_security_group_id = module.eks.node_security_group_id
+}
+
+# Allow outbound traffic
+resource "aws_security_group_rule" "db_server_outbound_rule" {
+  security_group_id = aws_security_group.db_server_sg.id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+}
