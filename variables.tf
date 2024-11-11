@@ -92,7 +92,7 @@ variable "db_engine_version" {
 # RDS instance name
 variable "database_name" {
   type        = string
-  default     = "db_subnet_grp"
+  default     = "alex"
   description = "name of RDS instance"
 }
 
@@ -101,20 +101,6 @@ variable "database_user" {
   type        = string
   description = "name of RDS instance user"
   default     = "dbuser"
-}
-
-# RDS instance password
-variable "database_password" {
-  type      = string
-  sensitive = false
-  default   = "password123"
-}
-
-# ID of EC2 instance AMI
-variable "ami" {
-  type        = string
-  default     = "ami-0ea3c35c5c3284d82"
-  description = "ID of Instance AMI"
 }
 
 # Type of instance

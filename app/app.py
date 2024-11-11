@@ -1,33 +1,32 @@
-from flask import Flask
-import mysql.connector
-from mysql.connector import Error
 import os
+import pymysql
 
-app = Flask(__name__)
+# Retrieve database connection details from environment variables
+host = os.getenv('MYSQL_HOST', 'localhost')  # Default to 'localhost' if not set
+user = os.getenv('MYSQL_USER', 'root')       # Default to 'root' if not set
+password = os.getenv('MYSQL_PASSWORD', '')   # Default to empty string if not set
+database = os.getenv('MYSQL_DB', 'test')   # Default to 'test' if not set
 
-# Database connection function
-def connect_to_db():
-    try:
-        # Use environment variables for connection details
-        connection = mysql.connector.connect(
-            host=os.getenv('MYSQL_HOST', 'localhost'),     
-            user=os.getenv('MYSQL_USER', 'dbuser'),           
-            password=os.getenv('MYSQL_PASSWORD', 'pass123'),       
-            database=os.getenv('MYSQL_DB', 'test_db')       
-        )
+connection = None
+try:
+    # Establish a connection to the database
+    connection = pymysql.connect(
+        host=host,
+        user=user,
+        password=password,
+        database=database
+    )
 
-        if connection.is_connected():
-            return "Hello, World! Connected to MySQL Database"
-    except Error as error:
-        return f"Error connecting to MySQL: {error}"
-    finally:
-        if connection.is_connected():
-            connection.close()
+    # If connection is successful
+    print(f"Connection to MySQL database '{database}' successful!")
 
-# Define the route
-@app.route("/")
-def hello_world():
-    return connect_to_db()
+    # You can perform your queries here if needed
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+except pymysql.MySQLError as e:
+    # Handle any errors during connection
+    print(f"Error connecting to MySQL database: {e}")
+finally:
+    # Close the connection if it's open
+    if connection:
+        connection.close()
+        print("Connection closed.")
