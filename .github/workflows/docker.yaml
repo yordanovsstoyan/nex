@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       region: us-east-2
-      ecr-repo: ecr-dev
+      ecr-repo: my-ecr
     steps:
     - name: Checkout
       uses: actions/checkout@v3
