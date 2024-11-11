@@ -69,6 +69,23 @@ module "eks" {
       source_cluster_security_group = true
       description                   = "Allow access from control plane to webhook port of AWS load balancer controller"
     }
+    ingress_self_all = {
+      description = "Node to node additional ephemeral ports"
+      protocol    = "tcp"
+      from_port   = 0
+      to_port     = 1024
+      type        = "ingress"
+      self        = true
+    }
+    cni_metrics_helper = {
+      description              = "Cluster API to node 61678/tcp"
+      protocol                 = "tcp"
+      from_port                = 61678
+      to_port                  = 61678
+      type                     = "ingress"
+      source_security_group_id = module.eks-cluster.cluster_security_group_id
+    }
+  }
   }
 
   tags = {
