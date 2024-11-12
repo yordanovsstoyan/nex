@@ -84,22 +84,6 @@ module "eks" {
       to_port     = "10250"
       type        = "ingress"
       self        = true
-    },
-    rds_ingress = {
-      description                   = "communication between control plane and the metrics-server endpoint"
-      protocol                      = "tcp"
-      from_port                     = "1024"
-      to_port                       = "65535"
-      type                          = "ingress"
-      source_cluster_security_group = true
-    },
-    rds_egress = {
-      description                   = "communication between control plane and the metrics-server endpoint"
-      protocol                      = "tcp"
-      from_port                     = "3306"
-      to_port                       = "3306"
-      type                          = "egress"
-      source_cluster_security_group = true
     }
   }
 
@@ -107,6 +91,22 @@ module "eks" {
   tags = {
     Environment = "dev"
   }
+}
+resource "aws_security_group_rule" "eks_rds_ingress" {
+  security_group_id        = module.eks.node_security_group_id
+  type                     = "ingress"
+  from_port                = 1024
+  to_port                  = 65535
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.db_server_sg.id
+}
+resource "aws_security_group_rule" "eks_rds_egress" {
+  security_group_id        = module.eks.node_security_group_id
+  type                     = "egress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.db_server_sg.id
 }
 
 # https://github.com/terraform-aws-modules/terraform-aws-eks/issues/2009
