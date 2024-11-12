@@ -35,25 +35,25 @@ jobs:
        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest mysql-connect-app
        docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
-  # deploy:
-  #   name: Deploy Helm chart
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v3
+  deploy:
+    name: Deploy Helm chart
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
 
-  #   - name: Configure AWS credentials
-  #     uses: aws-actions/configure-aws-credentials@v1
-  #     with:
-  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-  #       aws-region: ${{ env.region }}
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ${{ env.region }}
     
-  #   - uses: azure/setup-helm@v4.2.0
+    - uses: azure/setup-helm@v4.2.0
 
-  #   - name: Install kubectl
-  #     uses: azure/setup-kubectl@v3
-  #     id: install
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      id: install
 
-  #   - name: Update kubeconfig
-  #     run: aws eks update-kubeconfig --name ${{ env.eks_cluster_name }} --region ${{ env.region }}
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --name ${{ env.eks_cluster_name }} --region ${{ env.region }}

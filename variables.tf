@@ -115,5 +115,5 @@ variable "cluster_version" {
 
 variable "ecr_name" {
   type    = string
-  default = "my-ecr"
+  default = "mysql-connect-app"
 }

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-app-pod1
+  labels:
+    app: mysql-app
+spec:
+  containers:
+  - name: mysql-app-container
+    image: 997731127542.dkr.ecr.us-east-2.amazonaws.com/my-ecr
+    env:
+      - name: DB_HOST
+        value: "rds-instance.cjy8uqoc8cxc.us-east-2.rds.amazonaws.com"  # MySQL host
+      - name: DB_USER
+        value: "dbuser"
+      - name: DB_PASSWORD
+        value: "TsgsjxfSEjW7oSqmXFjt"  # MySQL password
