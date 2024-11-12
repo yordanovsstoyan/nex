@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-mysql-connect
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: mysql-connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-connect
+    metadata:
+      labels:
+        app: mysql-connect
+    spec:
+      containers:
+        - name: mysql-connect-container
+          image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
+          env:
+            - name: DB_HOST
+              value: "{{ .Values.mysql.dbHost }}"
+            - name: DB_USER
+              value: "{{ .Values.mysql.dbUser }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.mysql.dbPassword }}"
