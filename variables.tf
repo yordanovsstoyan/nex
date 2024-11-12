@@ -93,7 +93,7 @@ variable "db_engine_version" {
 variable "database_name" {
   type        = string
   default     = "alex"
-  description = "name of RDS instance"
+  description = "name of RDS DB"
 }
 
 # RDS instance username
@@ -106,14 +106,65 @@ variable "database_user" {
 variable "cluster_name" {
   type    = string
   default = "my-eks-cluster"
+  description = "name of EKS Cluster"
 }
 
 variable "cluster_version" {
   type    = number
   default = 1.25
+  description = "Kubernetes Version"
 }
 
 variable "ecr_name" {
   type    = string
   default = "mysql-connect-app"
+  description = "ECR Repo Name"
+}
+
+variable "general_node_group_desired_size" {
+  type        = number
+  default     = 1
+  description = "Desired number of instances for the general node group."
+}
+
+variable "general_node_group_min_size" {
+  type        = number
+  default     = 1
+  description = "Minimum number of instances for the general node group."
+}
+
+variable "general_node_group_max_size" {
+  type        = number
+  default     = 2
+  description = "Maximum number of instances for the general node group."
+}
+
+variable "general_node_group_instance_types" {
+  type        = list(string)
+  default     = ["t3.small"]
+  description = "Instance types for the general node group."
+}
+
+variable "spot_node_group_desired_size" {
+  type        = number
+  default     = 1
+  description = "Desired number of instances for the spot node group."
+}
+
+variable "spot_node_group_min_size" {
+  type        = number
+  default     = 1
+  description = "Minimum number of instances for the spot node group."
+}
+
+variable "spot_node_group_max_size" {
+  type        = number
+  default     = 2
+  description = "Maximum number of instances for the spot node group."
+}
+
+variable "spot_node_group_instance_types" {
+  type        = list(string)
+  default     = ["t3.micro"]
+  description = "Instance types for the spot node group."
 }

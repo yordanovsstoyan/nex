@@ -19,22 +19,22 @@ module "eks" {
 
   eks_managed_node_groups = {
     general = {
-      desired_size = 1
-      min_size     = 1
-      max_size     = 2
+      desired_size = var.general_node_group_desired_size
+      min_size     = var.general_node_group_min_size 
+      max_size     = var.general_node_group_max_size
 
       labels = {
         role = "general"
       }
 
-      instance_types = ["t3.small"]
+      instance_types = var.general_node_group_instance_types
       capacity_type  = "ON_DEMAND"
     }
 
     spot = {
-      desired_size = 1
-      min_size     = 1
-      max_size     = 2
+      desired_size = var.spot_node_group_desired_size 
+      min_size     = var.spot_node_group_min_size
+      max_size     = var.spot_node_group_max_size
 
       labels = {
         role = "spot"
@@ -46,7 +46,7 @@ module "eks" {
         effect = "NO_SCHEDULE"
       }]
 
-      instance_types = ["t3.micro"]
+      instance_types = var.spot_node_group_instance_types
       capacity_type  = "SPOT"
     }
   }
