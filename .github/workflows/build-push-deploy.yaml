@@ -25,20 +25,16 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Set SSM Params as Env Vars
-      uses: Bardavon-Health/actions-aws-ssm-params-to-env@v1.4.0
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
-        AWS_DEFAULT_REGION: us-east-2
-      with:
-        ssm-path: /
+    - name: Fetch Parameter from SSM and set as env variable
+      run: |
+        ECR_REPO=$(aws ssm get-parameter --name "/ecr_repo_name" --query "Parameter.Value" --output text --region ${{ env.region }})
+        echo "ECR_REPO=$ECR_REPO" >> $GITHUB_ENV
 
     - name: Build, Tag, and Push the Image to Amazon ECR
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY:  ${{ env.ECR_REPO_NAME}}
+        ECR_REPOSITORY:  ${{ env.ECR_REPO }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest mysql-connect-app
