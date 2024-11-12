@@ -24,3 +24,4 @@ finally:
     if connection:
         connection.close()
         print("Connection closed.")
+time.sleep(100000)

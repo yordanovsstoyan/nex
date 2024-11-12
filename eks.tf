@@ -69,7 +69,7 @@ module "eks" {
       source_cluster_security_group = true
       description                   = "Allow access from control plane to webhook port of AWS load balancer controller"
     },
-    metrics-server_ingress = {
+    metrics_server_ingress = {
       description                   = "communication between control plane and the metrics-server endpoint"
       protocol                      = "tcp"
       from_port                     = "4443"
@@ -77,7 +77,7 @@ module "eks" {
       type                          = "ingress"
       source_cluster_security_group = true
     },
-    metrics-server_pod_ingress = {
+    metrics_server_pod_ingress = {
       description = "communication between the metrics-server pod and the kubelet running on each worker node"
       protocol    = "tcp"
       from_port   = "10250"
