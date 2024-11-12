@@ -17,13 +17,10 @@ try:
         database=database
     )
     print(f"Connection to MySQL database successful! Hello World")
-    time.sleep(40)
 
 except pymysql.MySQLError as e:
     print(f"Error connecting to MySQL database: {e}")
-    time.sleep(40)
 finally:
     if connection:
         connection.close()
         print("Connection closed.")
-        time.sleep(20)
