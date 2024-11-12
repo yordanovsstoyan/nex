@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 env:
   region: us-east-2
-  ecr-repo: mysql-connection
+  ecr-repo: my-ecr
   eks_cluster_name: my-eks-cluster
   
 jobs:
