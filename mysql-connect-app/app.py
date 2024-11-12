@@ -8,21 +8,26 @@ password = os.getenv('DB_PASSWORD', 'password')
 database = os.getenv('DB_NAME', 'mydb')
 
 connection = None
-try:
-    # Connect to DB
-    connection = pymysql.connect(
-        host=host,
-        user=user,
-        password=password,
-        database=database
-    )
-    print(f"Connection to MySQL database successful! Hello World")
-
-except pymysql.MySQLError as e:
-    print(f"Error connecting to MySQL database: {e}")
-
-finally:
-    if connection:
-        connection.close()
-        print("Connection closed.")
-
+while True:
+    try:
+        # Try connecting to the DB
+        connection = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            database=database
+        )
+        print("Connection to MySQL database successful! Hello World")
+        
+        time.sleep(5)
+        
+    except pymysql.MySQLError as e:
+        print(f"Error connecting to MySQL database: {e}")
+        print("Retrying in 5 seconds...")
+        time.sleep(5)
+    
+    finally:
+        if connection:
+            connection.close()
+            print("Connection closed.")
+            
