@@ -21,21 +21,21 @@ resource "aws_db_instance" "app_db" {
   backup_retention_period = 7
 }
 
-# # Create RDS instance replica
-# resource "aws_db_instance" "app_db_replica" {
-#   replicate_source_db    = var.primary_rds_identifier
-#   identifier             = var.replica_rds_identifier
-#   availability_zone      = var.az[1]
-#   allocated_storage      = 10
-#   engine                 = "mysql"
-#   engine_version         = "8.0.32"
-#   instance_class         = var.db_instance_type
-#   storage_type           = "gp2"
-#   vpc_security_group_ids = [aws_security_group.db_server_sg.id]
-#   skip_final_snapshot    = true
+# Create RDS instance replica
+resource "aws_db_instance" "app_db_replica" {
+  replicate_source_db    = var.primary_rds_identifier
+  identifier             = var.replica_rds_identifier
+  availability_zone      = var.az[1]
+  allocated_storage      = 10
+  engine                 = "mysql"
+  engine_version         = "8.0.32"
+  instance_class         = var.db_instance_type
+  storage_type           = "gp2"
+  vpc_security_group_ids = [aws_security_group.db_server_sg.id]
+  skip_final_snapshot    = true
 
-#   depends_on = [aws_db_instance.app_db]
-# }
+  depends_on = [aws_db_instance.app_db]
+}
 
 # Security group for database servers
 resource "aws_security_group" "db_server_sg" {
