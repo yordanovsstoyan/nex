@@ -3,17 +3,6 @@ resource "aws_db_subnet_group" "RDS_subnet_grp" {
   name       = var.db_subnet_grp
   subnet_ids = aws_subnet.private_db_subnets.*.id
 }
-
-resource "random_password" "db" {
-  length  = 20
-  special = false
-}
-
-resource "aws_ssm_parameter" "db_password" {
-  name  = "db_password"
-  type  = "SecureString"
-  value = random_password.db.result
-}
 # Create RDS instance
 resource "aws_db_instance" "app_db" {
   identifier              = var.primary_rds_identifier
@@ -27,7 +16,7 @@ resource "aws_db_instance" "app_db" {
   vpc_security_group_ids  = [aws_security_group.db_server_sg.id]
   db_name                 = var.database_name
   username                = var.database_user
-  password                = "parola12345"#random_password.db.result
+  password                = random_password.db.result
   skip_final_snapshot     = true
   backup_retention_period = 7
 }
