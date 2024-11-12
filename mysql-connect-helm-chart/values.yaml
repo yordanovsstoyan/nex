@@ -1,0 +1,9 @@
+namespace: "mysql-namespace"
+
+mysql:
+  dbHost: "rds-instance.cjy8uqoc8cxc.us-east-2.rds.amazonaws.com"
+  dbUser: "dbuser"
+  dbPassword: "BjGuLHRdup0wJDhnT5iT"
+  image:
+    repository: "yordanovsstoyan/mysql-con"
+    tag: "1.1.1"
