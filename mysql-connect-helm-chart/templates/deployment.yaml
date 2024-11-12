@@ -10,13 +10,14 @@ spec:
   selector:
     matchLabels:
       app: mysql-connect
+  template:
     metadata:
       labels:
         app: mysql-connect
     spec:
       containers:
         - name: mysql-connect-container
-          image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
+          image: "{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}"
           env:
             - name: DB_HOST
               value: "{{ .Values.mysql.dbHost }}"
