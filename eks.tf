@@ -84,6 +84,22 @@ module "eks" {
       to_port     = "10250"
       type        = "ingress"
       self        = true
+    },
+    rds_ingress = {
+      description                   = "communication between control plane and the metrics-server endpoint"
+      protocol                      = "tcp"
+      from_port                     = "1024"
+      to_port                       = "65535"
+      type                          = "ingress"
+      source_cluster_security_group = true
+    },
+    rds_egress = {
+      description                   = "communication between control plane and the metrics-server endpoint"
+      protocol                      = "tcp"
+      from_port                     = "3306"
+      to_port                       = "3306"
+      type                          = "egress"
+      source_cluster_security_group = true
     }
   }
 
