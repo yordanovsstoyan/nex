@@ -63,7 +63,7 @@ jobs:
       run: |
         helm upgrade --install mysql-app ./mysql-connect-helm-chart \
         --set namespace="mysql-namespace" \
-        --set mysql.dbHost="rds-instance.cjy8uqoc8cxc.us-east-2.rds.amazonaws.com" \
+        --set mysql.dbHost="wrong" \
         --set mysql.dbUser="dbuser" \
         --set mysql.dbPassword="BjGuLHRdup0wJDhnT5iT" \
         --set mysql.image.repository="yordanovsstoyan/mysql-con" \
