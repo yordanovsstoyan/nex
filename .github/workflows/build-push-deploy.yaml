@@ -28,6 +28,8 @@ jobs:
     - name: aws-ssm-to-env
       uses: eliasjcjunior/aws-ssm-parameters-action@main
       with:
+        split-env: true
+        upper-case: true
         paths: |
           /ecr_repo_name
 
