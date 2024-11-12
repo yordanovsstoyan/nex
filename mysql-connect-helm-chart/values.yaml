@@ -4,6 +4,7 @@ mysql:
   dbHost: "localhost"
   dbUser: "user"
   dbPassword: "password"
+  dbName: "alex"
   image:
     repository: "repo/image"
     tag: "1.0.0"

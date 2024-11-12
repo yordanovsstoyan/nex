@@ -25,3 +25,5 @@ spec:
               value: "{{ .Values.mysql.dbUser }}"
             - name: DB_PASSWORD
               value: "{{ .Values.mysql.dbPassword }}"
+            - name: DB_NAME
+              value: "{{ .Values.mysql.dbName }}"
