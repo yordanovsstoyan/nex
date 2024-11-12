@@ -2,13 +2,16 @@ name: Docker Build+Push ECR
 on:
   push:
     branches: [ dev ]
+  workflow_dispatch:
+env:
+  region: us-east-2
+  ecr-repo: mysql-connection
+  eks_cluster_name: my-eks-cluster
+  
 jobs:
   build-and-push:
     name: Build and Push to ECR
     runs-on: ubuntu-latest
-    env:
-      region: us-east-2
-      ecr-repo: my-ecr
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -33,3 +36,27 @@ jobs:
       run: |
        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest app
        docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
+
+  deploy:
+    name: Deploy Helm chart
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ${{ env.region }}
+    
+    - uses: azure/setup-helm@v4.2.0
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      id: install
+    
+
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --name ${{ env.eks_cluster_name }} --region ${{ env.region }}
