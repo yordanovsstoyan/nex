@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
 env:
   region: us-east-2  
+  namespace: mysql-namespace
 jobs:
   build-and-push:
     name: Build and Push to ECR
@@ -84,7 +85,7 @@ jobs:
     - name: Deploy with Helm
       run: |
         helm upgrade --install mysql-app ./mysql-connect-helm-chart \
-        --set namespace="mysql-namespace" \
+        --set namespace="${{ env.namespace}}" \
         --set mysql.dbHost="${{ env.DB_ADDRESS }}" \
         --set mysql.dbUser="${{ env.DB_USER }}" \
         --set mysql.dbPassword="${{ env.DB_PASSWORD }}" \
