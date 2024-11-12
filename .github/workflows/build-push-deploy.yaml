@@ -24,17 +24,18 @@ jobs:
 
     - name: Fetch Parameter from SSM and set as env variable
       run: |
-        ECR_REGISTRY_URL=$(aws ssm get-parameter --name "/ecr_registry_url" --query "Parameter.Value" --output text --region ${{ env.region }})
-        echo "ECR_REGISTRY_URL=$ECR_REGISTRY_URL" >> $GITHUB_ENV
+        ECR_REPO=$(aws ssm get-parameter --name "/ecr_repo_name" --query "Parameter.Value" --output text --region ${{ env.region }})
+        echo "ECR_REPO=$ECR_REPO" >> $GITHUB_ENV
 
     - name: Build, Tag, and Push the Image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY:  ${{ env.ECR_REPO }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-       docker build -t $ECR_REGISTRYY:$IMAGE_TAG -t $ECR_REGISTRY:latest mysql-connect-app
-       docker push -a $ECR_REGISTRY
+       docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest mysql-connect-app
+       docker push -a $ECR_REGISTRY/$ECR_REPOSITORY
 
   deploy:
     name: Deploy Helm chart
