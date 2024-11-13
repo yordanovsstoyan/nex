@@ -4,6 +4,5 @@ terraform {
     bucket                  = "nexo-3tier-state"
     region                  = "us-east-2"
     key                     = "wordpress-3tier/terraform.tfstate"
-    shared_credentials_file = "~/.aws/credentials2"
   }
 }
