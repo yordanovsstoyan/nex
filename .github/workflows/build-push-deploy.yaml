@@ -1,4 +1,4 @@
-name: Docker Build+Push ECR
+name: Docker Build+Push ECR / Helm Deploy
 on:
   workflow_dispatch:
 env:
